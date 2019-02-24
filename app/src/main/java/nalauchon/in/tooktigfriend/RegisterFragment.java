@@ -2,13 +2,16 @@ package nalauchon.in.tooktigfriend;
 
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -115,7 +118,23 @@ public class RegisterFragment extends Fragment {
             myAlert.normalDialog("Have Space", "Please Fill All Blank");
         } else {
 
-        }
+//            uploand Image To Server
+            String pathImageString = null;
+            String[] strings = new String[]{MediaStore.Images.Media.DATA};
+            Cursor cursor = getActivity().getContentResolver().query(uri, strings, null, null, null);
+            if (cursor != null) {
+
+                cursor.moveToFirst();
+                int index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+                pathImageString = cursor.getString(index);
+
+            } else {
+                pathImageString = uri.getPath();
+            }
+
+            Log.d("24FebV1", "path ==" + pathImageString);
+
+        }   //if
 
     } //checkValue
 
